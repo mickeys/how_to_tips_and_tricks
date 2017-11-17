@@ -1,5 +1,6 @@
 # github-check-in-directory-structure
 
+<a href="https://xkcd.com/1926/"><img src="./images/xkcd_1926.png" width="50%" align="right"></a>
 Github canonically generates a directories based upon the files and folders you've checked in.
 
 What if you want to provide the user of your project an empty<sup>*</sup> folder hierarchy upon check-out, rather than force them to run a set-up script?
