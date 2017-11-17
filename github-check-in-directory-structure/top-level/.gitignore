@@ -1,0 +1,14 @@
+# -----------------------------------------------------------------------------
+# Github canonically generates a directories based upon the files and folders
+# you've checked in. What if you want to check in an empty directory structure
+# as part of a project? Perhaps the right thing to do is pre-create directories
+# (within directories) such that a user can provide content before they have to
+# run a set-up script?
+#
+# This .gitignore ensures this directory appears when the project is checked out.
+# You're welcome. :-)
+# -----------------------------------------------------------------------------
+# Ignore everything in this directory...
+*
+# ...except this file!
+!.gitignore
