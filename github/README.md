@@ -1,0 +1,6 @@
+# github-stuff
+
+<a href="https://xkcd.com/1597/"><img src="./images/xkcd_1597.png" width="40%" align="right"></a>
+* [.editorconfig](https://github.com/mickeys/github-stuff/blob/master/.editorconfig) helps developers define and maintain consistent coding styles between different editors and IDEs. The EditorConfig project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles. EditorConfig files are easily readable and they work nicely with version control systems. Find out more at [http://EditorConfig.org](http://EditorConfig.org).
+* If you're not using `.editorconfig` yet, a shortcut is to ship github URLs with `?ts=4` to force tabstops to be shown as 4 spaces instead of the default 8. For example: [https://github.com/mickeys/gnuplot/blob/master/graphing_ping/pinger.sh?ts=4](https://github.com/mickeys/gnuplot/blob/master/graphing_ping/pinger.sh?ts=4)
+* [github-check-in-directory-structure](./github-check-in-directory-structure) shows how I had github create an empty folder hierarchy for my users when they checked out the project.
