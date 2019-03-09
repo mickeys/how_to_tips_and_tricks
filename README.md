@@ -1,3 +1,3 @@
-# how-to
+# how_to_tips_and_tricks
 
-Miscellaneous tips and tricks that don't fit elsewhere.
+All the geeky computational techniques, tips, and tricks that didn't fit elsewhere.
