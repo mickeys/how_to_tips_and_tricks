@@ -17,6 +17,8 @@
 
 **Disclaimers**: Snapshots should _not_ be your only or primary method of data backup. Ensure that you have a comprehensive system of local and remote backups in place to handle hard disk failure, loss or theft, and catastrophic file where you store your computer and local backups. Also, while this technique has worked for me, I disclaim any liability for issues you may have following these instructions.
 
+**Warning**: Your local snapshots will be **_deleted_** by an operating system upgrade, as when my test machine went from High Sierra (10.13) to Mojave (10.4).
+
 **Timing decisions**: I take snapshots when I have a functioning configuration in place, especially before I'm about to embark on upgrading or changing software. 
 
 ## Does your hard disk qualify for snapshotting?
@@ -87,3 +89,23 @@ Take the time to peruse this list of files carefully. Anything you don't preserv
 1. Confirm to the pop-up which appears that you wish to restore from this snapshot.
 
 A progress bar will show the state of the restore. Your Mac will reboot automatically when the restore is done and then you can continue working starting from a previous, stable, moment in time.
+
+# Miscellany
+
+Delete a local snapshot:
+
+```shell
+$ sudo tmutil deletelocalsnapshots 2019-03-09-115226
+$
+```
+
+Interact with a local snapshot:
+
+```shell
+$ sudo mkdir /Volumes/test
+$ sudo mount_apfs -o ro -s com.apple.TimeMachine.2019-03-11-155357 / /Volumes/test
+```
+
+**Testing note**: I've tested this procedure on macOS High Sierra (10.13), Mojave (10.14), and across a High Sierra to Mojave upgrade; see warning note above.
+
+**TO-DO**: Investigate whether it's possible to migrate a snapshot out of the way - perhaps Google Drive - and restore after an OS upgrade. 
