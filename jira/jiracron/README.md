@@ -151,4 +151,4 @@ Every modern operating system provides some way to run a piece of software autom
 
 We've seen how to create REST API URLs, how they mirror the internal structure of JIRA issues, how to use `jq` and `curl` to programmatically create JIRA tickets, and how to use a data structure to capture business process (on a weekly granularity).
 
-The jiracron source code shows these steps in action. EDIT HERE
+The [jiracron source code](./jiracron.sh) shows these steps in action. Remember, you'll have to edit it to match the structure of the JIRA project with which you're working.
