@@ -4,18 +4,18 @@ An integral part of software engineering development is presenting your ideas an
 
 ![](./images/deck_front_page.png)
 
-## Barriers to entry
+## Common barriers to entry
 
 Generally presentation deck / slideshow creation technologies suffer from some significant barriers to use:
 
-* Expensive &#8212; PowerPoint
+* Expensive &#8212; [PowerPoint](https://products.office.com/en-us/powerpoint)
 * Proprietary, non-standard, unsupported &#8212; third-party
 * Heavyweight &#8212; results a big binary blobs
 * Complicated, non-intuitive technique &#8212; infrequent use, hard to remember
 * Platform-dependent results (`PPTX`) &#8212; requires specific viewing software
-* Don't integrate well with engineering workflow &#8212; Google Slides
+* Don't integrate well with engineering workflow &#8212; [Google Slides](https://www.google.com/slides/about/)
 
-## Functional wish-list
+## My functional wish-list
 
 * Cost &#8212; Free
 * Usage &#8212; Quick and simple to use
