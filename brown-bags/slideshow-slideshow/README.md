@@ -33,11 +33,11 @@ Generally presentation deck / slideshow creation technologies suffer from some s
 
 ## Have your own deck up in 2 minutes!
 
-* Download [this all-in-one HTML](./slideshow-slideshow.html) file
-* Open in your favorite text editor
-* Edit the existing content to your needs
-* Load in web browser to display, and
+1. Download [this all-in-one HTML](./slideshow-slideshow.html) file
+1. Open in your favorite text editor
+1. Edit the existing content to your needs
+1. Load in web browser to display, and
 	* use `'c'` to clone window to share
 	* use `'p'` to enter presentation mode
-* `git commit` presentation when finished
-* Schedule a meeting &#128578;
+1. `git commit` presentation when finished
+1. Schedule a meeting &#128578;
