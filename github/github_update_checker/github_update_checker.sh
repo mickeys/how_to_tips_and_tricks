@@ -26,24 +26,13 @@ ghUpdateCheck () {
 	local FN="$7"						# filename to be checked
 	local BRANCH="$8"					# 'master' or some other branch
 
-	l_sha=$( shasum < "README.md" ) #"${BASH_SOURCE[0]}" )
+	l_sha=$( shasum < "${BASH_SOURCE[0]}" )
 	l_sha="${l_sha%% *}"				# get the first token, the hash
 
-FN="README.md"
 	# -------------------------------------------------------------------------
 	# Note: the 'accept' header is sent to future-proof this code for when the
 	# default API level changes; see developer.github.com/v3/
 	# -------------------------------------------------------------------------
-# remote=$( curl --user "${LOGIN}:${PW_OR_KEY}" \ --header 'Accept: application/vnd.github.v3+json' \ "https://${GH}/${OWNER}/${REPO}/contents/${FP}/${FN}?ref=${BRANCH}" 2>/dev/null \ | jq --raw-output '.content' | base64 -D | shasum )
-
-#	remote=$( curl -u "${LOGIN}:${PW_OR_KEY}" \
-#		--header 'Accept: application/vnd.github.v3+json' \
-#		"https://${GH}/${OWNER}/${REPO}/contents/${FP}/${FN}?ref=${BRANCH}" 2>/dev/null \
-#		| jq --raw-output '.content' | base64 -D | shasum )
-
-LOGIN='mickeys'
-PW_OR_KEY='9d05ff129ae6a1bda4a2081f6e94d85c82179ffe'
-
 	r=$( curl -u "${LOGIN}:${PW_OR_KEY}" \
 		--header 'Accept: application/vnd.github.v3+json' \
 		"https://${GH}/${OWNER}/${REPO}/contents/${FP}/${FN}?ref=${BRANCH}" 2>/dev/null \
@@ -53,7 +42,7 @@ PW_OR_KEY='9d05ff129ae6a1bda4a2081f6e94d85c82179ffe'
 	r_sha="${r_sha%% *}"				# get the first token, the hash
 
 	if [[ "${l_sha}" != "${r_sha}" ]] ; then
-		echo "${r}"				# here's the latest commit's contents
+		echo "${r}"						# here's the latest commit's contents
 	else
 		echo ''							# all is good; nothing for you to do
 	fi
@@ -62,17 +51,26 @@ PW_OR_KEY='9d05ff129ae6a1bda4a2081f6e94d85c82179ffe'
 
 # -----------------------------------------------------------------------------
 # Example of ghUpdateCheck() being called and handling of the result.
+#
+# Required: $GH_USER and $PW_OR_KEY are set in your environment.
 # -----------------------------------------------------------------------------
 thisFilename="$(basename ${BASH_SOURCE[0]})"
 
-update=$(ghUpdateCheck "${OWNER}" "${GH_AKEY}" \
+update=$(ghUpdateCheck "${GH_USER}" "${PW_OR_KEY}" \
 	'api.github.com/repos' \
 	'mickeys' \
 	'how_to_tips_and_tricks' 'github/github_update_checker' \
 	"${thisFilename}" 'master' )
-		# ---------------------------------------------------------------------
-		#
-		# ---------------------------------------------------------------------
+
+	# -------------------------------------------------------------------------
+	# If there's a difference in the hashes for the existing file and the
+	# latest commit then ghUpdateCheck() has returned the file contents. Here I
+	# temporary file. That having been captured you can
+	#
+	#   1. swap out the existing file with the new one and force a restart
+	#   2. show the user the new file and have them manually examine & decide
+	#   3. something else entirely
+	# -------------------------------------------------------------------------
 	if [ -n "${update}" ] ; then
 		tempd=$(mktemp -d) || { echo "Temporary file creation failed."; exit 1; }
 		tempf="${tempd}/$(date +%Y%m%d_%H%M%S)_${thisFilename}"
