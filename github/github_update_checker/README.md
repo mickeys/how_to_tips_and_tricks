@@ -119,4 +119,4 @@ All that's left is to check whether the result is empty and to implement some ac
 	fi
 ```
 
-And there we go, a Github-based update-checker to ensure that your users are running the latest versions of the code you've distributed (without requiring them to clone the repo and to `git update` whenever they remember).
+And there we go, a Github-based update-checker ([source code here](https://github.com/mickeys/how_to_tips_and_tricks/blob/master/github/github_update_checker/github_update_checker.sh)) to ensure that your users are running the latest versions of the code you've distributed (without requiring them to clone the repo and to `git update` whenever they remember).
