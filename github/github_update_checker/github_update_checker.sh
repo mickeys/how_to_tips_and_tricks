@@ -65,7 +65,7 @@ update=$(ghUpdateCheck "${GH_USER}" "${PW_OR_KEY}" \
 	# -------------------------------------------------------------------------
 	# If there's a difference in the hashes for the existing file and the
 	# latest commit then ghUpdateCheck() has returned the file contents. Here I
-	# temporary file. That having been captured you can
+	# temporary file. That having been captured, you can
 	#
 	#   1. swap out the existing file with the new one and force a restart
 	#   2. show the user the new file and have them manually examine & decide

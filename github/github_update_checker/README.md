@@ -6,7 +6,7 @@ You've written some piece of code that gets distributed to your friends or co-wo
 
 ## Solution overview
 
-Github provides a REST API &#8212; whether it's the public [github.com](https://github.com) or a private, secure company repository hierarchy &#8212; that lets you reach in tweak things. The [developer API documentation](https://developer.github.com/v3/) is the place to start should you wish to extend your understanding of this note.
+Github provides a REST API &#8212; whether it's the public [github.com](https://github.com) or a private, secure company repository hierarchy &#8212; that lets you reach in tweak things. The [developer API documentation](https://developer.github.com/v3/) is the place to start should you wish to extend your understanding of this note. (Thanks to Jeff Minard for pointing me in the right direction.)
 
 ### Authorization credentials
 
@@ -38,7 +38,7 @@ ghUpdateCheck () {
 
 The command `shasum` generates a "hash", converting the contents of the file into a reasonably unique string like "da39a3ee5e6b4b0d3255bfef95601890afd80709". (There are "hash collissions" but they're reasonably unlikely.) Change anything in the file and the resultant hash changes.
 
-### The update-check function
+### Getting content from a Github repo
 
 First we generate a hash value for our local copy the running program, which can be found with the bash environment variable `BASH_SOURCE[0]`. That hash is stored in `l_sha`.
 
@@ -53,25 +53,31 @@ Next we grab the contents of the latest commit of this file from the Github repo
 3. A URL that specifies which server, repo, file, and file branch we're using. By specifying `/contents/` at the right location within the URL we'll be given the file contents (as opposed to any of the other information for which we can ask).
 
 ```
-remote=$( curl --user "${LOGIN}:${PW_OR_KEY}" \
+r=$( curl --user "${LOGIN}:${PW_OR_KEY}" \
 	--header 'Accept: application/vnd.github.v3+json' \
 	"https://${GH}/${OWNER}/${REPO}/contents/${FP}/${FN}?ref=${BRANCH}" 2>/dev/null \
 	| jq --raw-output '.content' | base64 -D )
 ```
 
-Because the contents are returned to us as an armored base 64 blob wrapped in a JSON data structure, we have to first unwrap the JSON (with the `jq` command) and then decode the blob (with `base64 -D`). Then the file contents are stored within the `remote` variable.
+Because the contents are returned to us as an armored base 64 blob wrapped in a JSON data structure, we have to first unwrap the JSON (with the `jq` command) and then decode the blob (with `base64 -D`). Then the file contents are stored within the `r` variable.
 
 `r_sha` holds the calculation of the remote hash value.
 
 ```
-r_sha=$( shasum < "$remote" )
+r_sha=$( shasum < "$r" )
 ```
 
-Lastly we return the result of comparing the local and remote hash values. If they're the same, meaning the running program is up-to-date, we return the UNIX success value of 0. If they're different, meaning the latest commit has some changes and an update is called for, we'll return a 1.
+### Returning something to the caller
+
+We compare the local and remote hash values.
 
 ```
 [[ "${l_sha%% *}" != "${r_sha%% *}" ]]
 ```
+
+* If they're the same, meaning the running program is the same as the latest commit, then there's nothing for the caller to do; we return and empty string.
+* If they're different we assume there's a later version (although if the user has made local changes that'll trigger differences). We return the contents for the caller to handle as appropriate.
+
 
 ## Using ghUpdateCheck() &#8212; an example
 
@@ -81,19 +87,36 @@ First we extract the filename part of the whole path to the running program.
 thisFilename="$(basename ${BASH_SOURCE[0]})"
 ```
 
-Then we call ghUpdateCheck() with the proper parameters, wrapped in an `if` statement, which offers two outcomes.
-
+Then we call ghUpdateCheck() with the proper parameters, returning the string result into the `update` variable.
 
 ```bash
-if ghUpdateCheck "${OWNER}" "${GH_AKEY}" \
+update=$(ghUpdateCheck "${GH_USER}" "${PW_OR_KEY}" \
 	'api.github.com/repos' \
 	'mickeys' \
 	'how_to_tips_and_tricks' 'github/github_update_checker' \
-	"${thisFilename}" 'master' ; then
+	"${thisFilename}" 'master' )
+```
+
+All that's left is to check whether the result is empty and to implement some actions when there's an update available.
+
+```
+	# -------------------------------------------------------------------------
+	# If there's a difference in the hashes for the existing file and the
+	# latest commit then ghUpdateCheck() has returned the file contents. Here I
+	# temporary file. That having been captured, you can
+	#
+	#   1. swap out the existing file with the new one and force a restart
+	#   2. show the user the new file and have them manually examine & decide
+	#   3. something else entirely
+	# -------------------------------------------------------------------------
+	if [ -n "${update}" ] ; then
+		tempd=$(mktemp -d) || { echo "Temporary file creation failed."; exit 1; }
+		tempf="${tempd}/$(date +%Y%m%d_%H%M%S)_${thisFilename}"
+		echo "${update}" >| "${tempf}"
 		echo "There's a later version of ${thisFilename} available."
 	else
 		echo "You're running the latest version of ${thisFilename}."
 	fi
 ```
 
-Because you've got a copy of the latest commit of the file in `$remote` 
+And there we go, a Github-based update-checker to ensure that your users are running the latest versions of the code you've distributed (without requiring them to clone the repo and to `git update` whenever they remember).
