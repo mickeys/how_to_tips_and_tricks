@@ -12,7 +12,7 @@ Github provides a REST API &#8212; whether it's the public [github.com](https://
 
 Whereas some of Github is available to "unauth'd users" &#8212; those who have neither allowed a cookie to be set nor logged in &#8212; the REST API requires authentication.
 
-You have two choices, use a password or an API key. The API key can be created with restricted access permissions, and doesn't expose your login password to others, so this is the preferred method. Create an API key to allow others to access your repos at XYZZY
+You have two choices, use a password or an API key (or token). The API key can be created with restricted access permissions, doesn't expose your login password to others, can be revoked; this is the preferred method. On you: create an [API key (token)](https://github.com/settings/tokens).
 
 ### Language-agnosticism
 
