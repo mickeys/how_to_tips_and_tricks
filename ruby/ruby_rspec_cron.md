@@ -32,26 +32,57 @@ MAILTO="person@example.com"
 0 * * * * cd /dir ; VAR=value /.../rspec pathto/foo.rb 2>&1 | ~/bin/boolean.sh "foo.rb" "${MAILTO}"
 ```
 
-## Easy-to-read test status email subject lines
+## Easy-to-read statuses for email, SMS, and Slack
 
-When something is automated the test runs pile up and can get ignored. So I want the email subject lines to scream out "FAILURE". The most modular way I could think of was passing the test output through a script which generates the subject lines. I came up with `~/bin/boolean.sh`, referred to in the crontab above.
+When something is automated the test runs pile up and can get ignored. So I want the status subject lines to scream out "FAILURE". The most modular way I could think of was passing the test output through a script which generates the subject lines. I came up with `~/bin/boolean.sh`, referred to in the crontab above.
 
 The script is called with (1) a human-readable test suite name and (2) the email recipient.
 
 ```
 #!/bin/bash
 # -------------------------------------------------------------------------------
-# email command output with success or failure noted in the subject line
+# command output w/ success | failure noted in (1) sms and (2) email subject line
+#
+# ------------+------------------------- #
+# Carrier     | Domain Name              #
+# ------------+------------------------- #
+# AT&T        | @txt.att.net             #
+# Cricket     | @mms.mycricket.com       #
+# Nextel      | @messaging.nextel.com    #
+# Qwest       | @qwestmp.com             #
+# Sprint      | @messaging.sprintpcs.com #
+# T-Mobile    | @tmomail.net             #
+# US Cellular | @email.uscc.net          #
+# Verizon     | @vtext.com               #
+# Virgin      | @vmobl.com               #
+# ------------+------------------------- #
+#
 # -------------------------------------------------------------------------------
-THIS=$( basename ${BASH_SOURCE[0]} )	# the name of this script
-if [[ $# -ne 2 ]] ; then echo "usage: $THIS 'test name' 'recipient'" ; exit ; fi
+THIS=$( basename "${BASH_SOURCE[0]}" )	# the name of this script
+if [[ $# -lt 2 ]] ; then echo "usage: $THIS 'test name' recipient [sms]" ; exit ; fi
 
 OUT=$(mktemp) || { echo "Failed to create temp file; quitting." ; exit 1 ; }
-cat > "$OUT"							# capture STDIN to temporary file
+
+cat > "$OUT"							# capture STDIN (cmd output) to tempfile
 
 if grep "error" < "$OUT" 2>&1 > /dev/null ; then r="FAILURE" ; else r="SUCCESS" ; fi
 
-cat "$OUT" | mailx -E -s "${r} -- ${1}" "${2}"
+# send email regardless of status
+cat "$OUT" | mailx -n -E -s "${r} -- ${1}" "${2}"
+
+# on *failures* send alert(s)
+if [ "$r" = 'FAILURE' ] ; then
+	# ---------------------------------------------------------------------------
+	# SMS if an optional address was passed
+	# ---------------------------------------------------------------------------
+	if [ -n "$3" ] ; then mailx -n -s "${r} -- ${1}" "$3" < /dev/null ; fi
+	# ---------------------------------------------------------------------------
+	# slack for all failures
+	# ---------------------------------------------------------------------------
+	curl -X POST --data-urlencode \
+	"payload={\"mrkdwn\": true, \"text\": \"*${r}* - \`${1}\`\", \"icon_emoji\": \":cron:\", \"username\": \"cron\"}" \
+	https://hooks.slack.com/services/...
+fi
 ```
 
 ## Conclusion
