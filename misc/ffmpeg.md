@@ -1,7 +1,5 @@
 # Split and cut video segments with ffmpeg
 
-My crazy cat lady friend is a fan of [Instagram](https://www.instagram.com/). Why am I telling you this? Because 
-
-![](./images/whatsapps.jpg)
-
-<img src="./images/whatsapps.jpg" width="50%">
+| So this happened... | |
+| :--- | :--- |
+| My crazy cat lady friend is a fan of social media. Why am I telling you this? Because I get a _lot_ of requests to slice and dice her [Facebook Live](https://www.facebook.com/facebookmedia/solutions/facebook-live) videos into one-minute chunks for posting on  [Instagram](https://www.instagram.com/). | ![](./images/whatsapps.jpg) |
