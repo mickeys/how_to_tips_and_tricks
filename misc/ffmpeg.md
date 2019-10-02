@@ -8,9 +8,10 @@
 
 If you don't want to know what's going on but just want to be able to use my wrapper scripts, all you need is this section. Copy the three code blocks below into the `.bash_profile` in your home directory and start a new terminal window.
 
-To cut a segment from a longer video type something like `vseg long.mp4 00:00:00 00:01:00` (this to get the first minute). The output will be a file called `00_00_00 to  00_01_00.mp4`.
-
-To split a video into equally-sized chunks type something like `vsplit long.mp4 60` (for 60-second chunks). The output will be a series of files named something like `segment_001.mp4`.
+| command | explanation |
+| :--- | :--- |
+| `vseg m.mp4 00:00:00 00:01:00` | Cut a one-minute segment from a longer video (named `m.mp4`). The output will be a file called `00_00_00 to  00_01_00.mp4`. |
+| `vsplit long.mp4 60` | Cut a one-minute segment from a longer video. The output will be a file called `00_00_00 to  00_01_00.mp4`. |
 
 ## ffmpeg
 
