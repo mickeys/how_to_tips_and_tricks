@@ -10,7 +10,7 @@ If you don't want to know what's going on but just want to be able to use my wra
 
 | command | explanation |
 | :--- | :--- |
-| `vseg`&nbsp;`m.mp4`&nbsp;`00:00:00 00:01:00` | Cut a one-minute segment from a longer video (named `m.mp4`). The output will be a file called `00_00_00 to  00_01_00.mp4`. |
+| `vseg`&nbsp;`m.mp4`&nbsp;`00:00:00g`&nbsp;`00:01:00` | Cut a one-minute segment from a longer video (named `m.mp4`). The output will be a file called `00_00_00 to  00_01_00.mp4`. |
 | `vsplit`&nbsp;`m.mp4g`&nbsp;`60` | Cut a one-minute segment from a longer video. The output will be a file called `00_00_00 to  00_01_00.mp4`. |
 
 ## ffmpeg
