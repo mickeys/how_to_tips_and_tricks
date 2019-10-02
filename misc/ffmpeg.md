@@ -2,7 +2,15 @@
 
 | So this happened... | |
 | :--- | :--- |
-| My crazy cat lady friend is a fan of social media.<br>&nbsp;<br>Why am I telling you this? Because I get a _lot_ of requests to slice and dice her [Facebook Live](https://www.facebook.com/facebookmedia/solutions/facebook-live) videos into one-minute chunks for posting on  [Instagram](https://www.instagram.com/).<br>&nbsp;<br>Rather than use some point-and-click video app I wanted to have a quick command-line way of making her happy. | ![](./images/whatsappchat.jpg) |
+| My wife, _the_ crazy cat lady, is a great fan of social media.<br>&nbsp;<br>Why am I telling you this? Because I get a _lot_ of requests to slice and dice her [Facebook Live](https://www.facebook.com/facebookmedia/solutions/facebook-live) videos into one-minute chunks for posting on  [Instagram](https://www.instagram.com/). Chats like the one at right are not uncommon. :-)<br>&nbsp;<br>Rather than use some time-consuming point-and-click video app I wanted to have a quick command-line way of making her happy in short order.<br>&nbsp;<br>This is how I use a very popular video manipulation tool - ffmpeg - to respond to her requests quickly and easily. I've wrapped ffmpeg in a bit of code to make it painlessly easy to remember and use. Share and enjoy!| ![](./images/whatsappchat.jpg) |
+
+## tl;dr
+
+If you don't want to know what's going on but just want to be able to use my wrapper scripts, all you need is this section. Copy the three code blocks below into the `.bash_profile` in your home directory and start a new terminal window.
+
+To cut a segment from a longer video type something like `vseg long.mp4 00:00:00 00:01:00` (this to get the first minute). The output will be a file called `00_00_00 to  00_01_00.mp4`.
+
+To split a video into equally-sized chunks type something like `vsplit long.mp4 60` (for 60-second chunks). The output will be a series of files named something like `segment_001.mp4`.
 
 ## ffmpeg
 
@@ -64,7 +72,6 @@ vseg() {
 	# Remove the work-in-progress file. List the input and output files.
 	rm "$WIP"
 	ls -l "$SRC" "$OUT"
-}
 }
 ```
 
