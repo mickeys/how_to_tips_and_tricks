@@ -75,6 +75,8 @@ vseg() {
 }
 ```
 
+![](./images/00_07_13__00_07_16.mp4)
+
 ## Splitting a video into a series of segments
 
 Now you know how to split a long video into a series of equal smaller segments (albeit with a series of repetitive steps). How can we do it in one fell swoop? I want to be able to type `vsplit really_long_movie.mp4 60` to chop into one-minute (60-second) chunks. Do this with:
