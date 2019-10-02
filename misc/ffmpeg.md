@@ -76,7 +76,7 @@ vseg() {
 }
 ```
 
-![](./images/00_07_13__00_07_16.png)
+![](./images/thor_kitten_climbing.gif)
 
 ## Splitting a video into a series of segments
 
